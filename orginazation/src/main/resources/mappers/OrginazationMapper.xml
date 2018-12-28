@@ -216,4 +216,10 @@
     </if>
     order by create_time desc
   </select>
+
+    <select id="selectNameById" parameterType="int" resultType="String">
+        select orginazation_name
+        from orginazation
+        where id = #{orginazationid}
+    </select>
 </mapper>

@@ -94,7 +94,10 @@ public class OrginazationManageController  {
         return iOrganizationService.check(organizationId,checked,uncheckedCause);
     }
 
-    //根据orginazationid判断组织是否存在，提供给use
+    /**
+     * @author zth
+     */
+    //根据orginazationid判断组织是否存在，提供给user
     @RequestMapping(value = "judge.do",method = RequestMethod.GET)
     @ResponseBody
     @ApiOperation(value = "判断组织是否存在",notes = "id来判断")
@@ -102,6 +105,13 @@ public class OrginazationManageController  {
         return iOrganizationService.judgebyId(organizationId);
     }
 
+    //根据orginazationid获取组织名称，提供给user使用
+    @RequestMapping(value = "getname.do",method = RequestMethod.GET)
+    @ResponseBody
+    @ApiOperation(value = "获得组织名称",notes = "传入组织id")
+    public ServerResponse getbyId(@RequestParam Integer organizationId){
+        return iOrganizationService.judgebyId(organizationId);
+    }
 
 
 }

@@ -1,7 +1,5 @@
 package edu.zju.ccnt.user.service.Impl;
 
-
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -9,7 +7,7 @@ import edu.zju.ccnt.user.common.Const;
 import edu.zju.ccnt.user.common.ServerResponse;
 import edu.zju.ccnt.user.dao.UserMapper;
 import edu.zju.ccnt.user.model.User;
-import edu.zju.ccnt.user.service.IOriganizationFeign;
+import edu.zju.ccnt.user.service.IOrganizationFeign;
 import edu.zju.ccnt.user.service.IUserService;
 import edu.zju.ccnt.user.util.DateTimeUtil;
 import edu.zju.ccnt.user.util.PasswordUtil;
@@ -39,7 +37,7 @@ public class UserServiceImpl implements IUserService {
      * 调用oginazation
      */
     @Autowired
-    private IOriganizationFeign iOriganizationFeign;
+    private IOrganizationFeign iOrganizationFeign;
 
 
     public ServerResponse register(User user) {
@@ -66,7 +64,7 @@ public class UserServiceImpl implements IUserService {
            /**
             用到了ognazation服务的根据organizationid
             */
-             if (iOriganizationFeign.judgebyId(user.getOrganizationId()).getMsg().equals("false"))
+             if (iOrganizationFeign.judgebyId(user.getOrganizationId()).getMsg().equals("false"))
              return ServerResponse.createByErrorMessage("所选组织不存在");
             //注册服务提供者的时候需要先注册服务提供方的管理员
             int count = userMapper.selectByOrganizationAndRole(user.getOrganizationId(),Const.Role.SERVICE_ADMIN.getCode(),Const.CheckStatus.CHECKED);
@@ -196,7 +194,7 @@ public class UserServiceImpl implements IUserService {
         newUser.setRoleId(user.getRoleId());
 
         //判断所选组织是否存在
-        if (iOriganizationFeign.judgebyId(user.getOrganizationId()).getMsg().equals("false"))
+        if (iOrganizationFeign.judgebyId(user.getOrganizationId()).getMsg().equals("false"))
         return ServerResponse.createByErrorMessage("所选组织不存在");
         newUser.setOrganizationId(user.getOrganizationId());
 
@@ -273,14 +271,18 @@ public class UserServiceImpl implements IUserService {
             userVo.setRoleId(user.getRoleId());
             userVo.setChecked(user.getChecked());
             userVo.setRemarks(user.getRemarks());
-//            if(user.getOrganizationId()!=0){  //服务提供方用户
-//                Organization organization = organizationMapper.selectByPrimaryKey(user.getOrganizationId());
-//                if(organization != null){
-//                    userVo.setOrganizationName(organization.getOrganizationName());     //企业用户显示组织信息
-//                }else{
-//                    userVo.setOrganizationName("所在组织不存在");
-//                }
-//            }
+
+            /**
+             *用到了Orginazation的根据组织id查询组织名称
+             */
+            if(user.getOrganizationId()!=0){  //服务提供方用户
+                String oname = iOrganizationFeign.getbyId(user.getOrganizationId()).getMsg();
+                if(oname != null){
+                    userVo.setOrganizationName(oname);     //企业用户显示组织信息
+                }else{
+                    userVo.setOrganizationName("所在组织不存在");
+                }
+            }
 //            Role role = roleMapper.selectByPrimaryKey(user.getRoleId());
 //            if(role != null){
 //                userVo.setRoleName(role.getRoleName());
@@ -320,12 +322,16 @@ public class UserServiceImpl implements IUserService {
             userInfoVo.setRemarks(user.getRemarks());
         userInfoVo.setUpdateTime(DateTimeUtil.dateToStr(user.getUpdateTime()));
 //        Organization organization = organizationMapper.selectByPrimaryKey(user.getOrganizationId());
-//        userInfoVo.setOrganizationId(user.getOrganizationId());
+        userInfoVo.setOrganizationId(user.getOrganizationId());
+
+        String oname = iOrganizationFeign.getbyId(user.getId()).getMsg();
+        if (oname!=null)
+            userInfoVo.setOrganization(oname);
 //        if(organization != null){
 //            userInfoVo.setOrganization(organization.getOrganizationName());
 //        }
 //        Role role = roleMapper.selectByPrimaryKey(user.getRoleId());
-//        userInfoVo.setRoleId(role.getId());
+        userInfoVo.setRoleId(user.getRoleId());
 //        userInfoVo.setRole(role.getRoleName());
         return userInfoVo;
     }
@@ -419,11 +425,10 @@ public class UserServiceImpl implements IUserService {
         if(!serverResponse.isSuccess()){
             return serverResponse;
         }
-//        if(user.getOrganizationId().equals(0)) user.setOrganizationId(0);  //普通用户的组织id为0
-//        else{
-//            Organization organization = organizationMapper.selectByPrimaryKey(user.getOrganizationId());
-//            if(organization == null) return ServerResponse.createByErrorMessage("所选组织不存在");
-//        }
+       if(user.getOrganizationId().equals(0)) user.setOrganizationId(0);  //普通用户的组织id为0
+        else{
+            if(iOrganizationFeign.judgebyId(user.getId()).getMsg().equals("false")) return ServerResponse.createByErrorMessage("所选组织不存在");
+        }
         new PasswordUtil().encryptPassword(user);    //shiro密码加密
         user.setChecked(Const.UserChecked.CHECKED);      //管理员添加的，所以直接审核通过
         if(user.getRoleId() == null)

@@ -61,4 +61,11 @@ public interface OrginazationMapper {
     int selectByOrginazationNameAndId(@Param("name") String name, @Param("orginazationId") Integer orginazationId);
 
     List<Orginazation> selectBySuperAdmin(@Param("checked")Integer checked);
+
+
+    /**
+    一个根据id获得组织名
+     */
+    String selectNameById(@Param("orginazationId") Integer orginazationId);
+
 }

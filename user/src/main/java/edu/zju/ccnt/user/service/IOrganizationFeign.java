@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @FeignClient(value = "orginazation-service")
-public interface IOriganizationFeign {
+public interface IOrganizationFeign {
 
     //根据id判断组织是否存在
     @RequestMapping(value="/manage/organization/judge.do",method = RequestMethod.GET)
     public ServerResponse judgebyId(@RequestParam Integer id);
+
+    //由id获取组织的对象
+    @RequestMapping(value="/manage/organization/getname.do",method = RequestMethod.GET)
+    public ServerResponse getbyId(@RequestParam Integer id);
+
 
 }
