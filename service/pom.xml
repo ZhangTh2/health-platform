@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>edu.zju.ccnt</groupId>
-    <artifactId>user</artifactId>
+    <artifactId>service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>user</name>
-    <description>Services of users</description>
+    <name>service</name>
+    <description>Service&#39;service in health-platform</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -31,9 +31,7 @@
         </dependencies>
     </dependencyManagement>
 
-
     <dependencies>
-        <!--springboot依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -159,8 +157,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.6.1</version>
         </dependency>
-
-
     </dependencies>
 
     <build>

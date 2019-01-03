@@ -36,4 +36,5 @@ public interface IUserService {
 
     boolean isChecked(Integer userId);
 
+
 }

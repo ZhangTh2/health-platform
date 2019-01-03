@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS USER;
+use user
 create table IF NOT EXISTS `user` (
 `id` INT AUTO_INCREMENT,
 `username` VARCHAR(30) NOT NULL,
