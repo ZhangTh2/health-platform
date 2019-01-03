@@ -46,10 +46,13 @@ public class ServiceInfoVo {      //服务详细信息
 
     private List<Const.SystemErrorCode> systemErrorCode;     //还需要一个系统错误码
 
-    /**
-     * mark 需要交互
-     */
-    //private List<ApiInfoVo> apiInfoList;  //服务api的信息
 
+    private List<ApiInfoVo> apiInfoList;  //服务api的信息
+
+
+    /**
+     * mark
+     * 不知道有没有设置SDK的必要
+     */
    // private List<SdkVo> sdkVoList;      //sdk列表
 }

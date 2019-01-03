@@ -1,0 +1,27 @@
+use service
+create table if not exists `api` (
+`id` INT AUTO_INCREMENT,
+`name` VARCHAR(50),
+`mark` VARCHAR(50),
+`api_address` VARCHAR(50),
+`path` VARCHAR(100),
+`strip_prefix` INT,
+`description` VARCHAR(100),
+`api_call_way` VARCHAR(50),
+`api_introduction` VARCHAR(100),
+`status` INT,
+`service_id` INT,
+`checked` INT,
+`remarks` VARCHAR(50),
+`arguments` VARCHAR(50),
+`call_limit` INT,
+`call_ip_limit` INT,
+`result_arguments` VARCHAR(100),
+`error_code` VARCHAR(100),
+`result` VARCHAR(100),
+`call_example` VARCHAR(100),
+`app_key` VARCHAR(100),
+`create_time` TIMESTAMP ,
+`update_time` TIMESTAMP ,
+PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

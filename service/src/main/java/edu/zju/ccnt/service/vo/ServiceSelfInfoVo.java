@@ -1,5 +1,6 @@
 package edu.zju.ccnt.service.vo;
 
+import edu.zju.ccnt.service.common.Const;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -49,12 +50,9 @@ public class ServiceSelfInfoVo {
 
     private String userName;    //服务提交者姓名
 
-//    private List<Const.SystemErrorCode> systemErrorCode;     //还需要一个系统错误码
+    private List<Const.SystemErrorCode> systemErrorCode;     //还需要一个系统错误码
 
-    /**
-     * mark
-     * 需要交互
-     */
-    //private List<ApiInfoVo> apiInfoList;  //服务api的信息
+
+    private List<ApiInfoVo> apiInfoList;  //服务api的信息
 
 }

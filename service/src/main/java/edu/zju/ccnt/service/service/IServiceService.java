@@ -8,9 +8,7 @@ import edu.zju.ccnt.service.vo.ServiceVo;
 
 import java.util.List;
 
-/**
- * Created by LXY on 2017/10/26.
- */
+
 public interface IServiceService {
 
     ServerResponse<String> add(Service service, Integer userId);
@@ -36,7 +34,12 @@ public interface IServiceService {
 
     List<ServiceInfoByCategory> getAllServiceByCategory();
 
-    List<ServiceInfoByCategoryAndOrder> getAllServiceByOrderInfo(int userId);
+    /**
+     *mark
+     *和order有关
+     */
+
+  //  List<ServiceInfoByCategoryAndOrder> getAllServiceByOrderInfo(int userId);
 
     ServerResponse manageList(String serviceName, Integer checked, Integer organizationId, Integer pageNum, Integer pageSize);
 
@@ -44,19 +47,26 @@ public interface IServiceService {
 
     ServerResponse superAdmincheck(Integer serviceId, boolean checked, String uncheckedCause);
 
-    //ServerResponse elasticsearch(String keyword);
     public List<ServiceVo> listOfAll(String serviceName);
 
-    List<ServiceVo> searchBykeyword(String keyword);
+    /**
+     * mark
+     *索引查询
+     *
+     */
+   // List<ServiceVo> searchBykeyword(String keyword);
 
-    ServerResponse sdkList(Integer serviceId);
+    //SDK不用了
+    //ServerResponse sdkList(Integer serviceId);
 
     ServerResponse listThirdService(String serviceName, Integer pageNum, Integer pageSize);
 
 
-    ServerResponse searchOperationLogs(String userName, Integer pageNum, Integer pageSize);
+    //ServerResponse searchOperationLogs(String userName, Integer pageNum, Integer pageSize);
 
-    ServerResponse searchTopFive();
-
-    ServerResponse searchCallDetail(String serviceName, Integer pageNum, Integer pageSize);
+   // ServerResponse searchTopFive();
+/**
+ * mark api调用详情，先跳过
+ * */
+   // ServerResponse searchCallDetail(String serviceName, Integer pageNum, Integer pageSize);
 }

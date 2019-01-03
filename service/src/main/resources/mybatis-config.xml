@@ -8,5 +8,7 @@
     </typeAliases>
     <mappers>
         <mapper resource="mappers/ServiceMapper.xml"/>
+        <mapper resource="mappers/ApiMapper.xml"/>
+        <mapper resource="mappers/ServcieCategoryMapper.xml"/>
     </mappers>
 </configuration>

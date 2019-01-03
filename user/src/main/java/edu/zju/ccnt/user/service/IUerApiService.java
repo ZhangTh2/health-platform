@@ -9,7 +9,7 @@ import edu.zju.ccnt.user.common.ServerResponse;
  */
 public interface IUerApiService {
     //根据用户id获取角色id
-    ServerResponse<Integer> getRoleIdbyUserId(Integer user_id);
+    ServerResponse<Integer> getRoleIdbyUserId(Integer userId);
     //判断用户是否已经被审核
-    ServerResponse<String> ischecked(Integer user_id);
+    ServerResponse<String> ischecked(Integer userId);
 }

@@ -1,8 +1,9 @@
 CREATE DATABASE IF NOT EXISTS Service;
-use servicede
+use service
 create table IF NOT EXISTS `service` (
 `id` INT AUTO_INCREMENT,
 `service_name` VARCHAR(30) NOT NULL,
+`user_id` INT,
 `category_id` INT,
 `status` INT,
 `price` decimal,

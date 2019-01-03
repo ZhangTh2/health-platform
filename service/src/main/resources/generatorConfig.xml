@@ -47,7 +47,7 @@
 
 
         <!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
-        <table schema="general" tableName="service" domainObjectName="Service"
+        <table schema="general" tableName="service_category" domainObjectName="ServiceCategory"
 
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"
         >

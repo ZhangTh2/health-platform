@@ -12,7 +12,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableDiscoveryClient
 @SpringBootApplication
 @MapperScan("edu.zju.ccnt.service.dao")
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ServiceApplication {
 
     public static void main(String[] args) {
