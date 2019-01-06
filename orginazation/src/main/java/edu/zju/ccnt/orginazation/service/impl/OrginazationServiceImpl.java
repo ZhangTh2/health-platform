@@ -166,21 +166,6 @@ public class OrginazationServiceImpl implements IOrginazationService {
     }
 
 
-    public ServerResponse judgebyId(Integer id) {
-        log.info("根据id判断有无此组织");
 
-        String exist = "true";
-        Orginazation  orginazation = orginazationMapper.selectByPrimaryKey(id);
-        if(orginazation==null) exist = "false";
-        return ServerResponse.createBySuccessMessage(exist);
-    }
-
-    //根据id获得组织名称
-    public ServerResponse getbyId(Integer id) {
-        log.info("根据id获得组织名称");
-
-        String name = orginazationMapper.selectNameById(id);
-        return ServerResponse.createBySuccessMessage(name);
-    }
 }
 

@@ -44,5 +44,14 @@ public class UserApiServiceImpl implements IUerApiService {
         }
     }
 
+    public ServerResponse<Integer> getOrganizationIdbyUId(Integer userId) {
+        log.info("获取组织id");
+        User user = userMapper.selectByPrimaryKey(userId);
+        if(user==null)
+            return ServerResponse.createByErrorMessage("该用户不存在");
+        else
+            return ServerResponse.createBySuccess(user.getOrganizationId());
+    }
+
 
 }

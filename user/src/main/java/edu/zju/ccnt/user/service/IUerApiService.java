@@ -12,4 +12,6 @@ public interface IUerApiService {
     ServerResponse<Integer> getRoleIdbyUserId(Integer userId);
     //判断用户是否已经被审核
     ServerResponse<String> ischecked(Integer userId);
+    //根据用户id获取所属组织id
+    ServerResponse<Integer> getOrganizationIdbyUId(Integer userId);
 }

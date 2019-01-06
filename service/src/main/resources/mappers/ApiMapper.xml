@@ -31,7 +31,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-  <resultMap id="apiInfo" type="edu.zju.ccnt.model.ApiCoreInfo">
+  <resultMap id="apiInfo" type="edu.zju.ccnt.service.model.ApiCoreInfo">
     <id column="id" jdbcType="INTEGER" property="id" javaType="java.lang.Integer"/>
     <result column="path" jdbcType="VARCHAR" property="path" javaType="java.lang.String"/>
     <result column="service_id" jdbcType="INTEGER" property="serviceId" javaType="java.lang.Integer" />

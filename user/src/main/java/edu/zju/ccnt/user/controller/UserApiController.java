@@ -26,15 +26,21 @@ public class UserApiController {
     private IUerApiService iUerApiService;
 
     @RequestMapping(value = "getRole",method = RequestMethod.GET)
-    @ApiOperation(value = "获取用户角色",notes = "提供用户id，返回角色Id")
-    public ServerResponse getRole(Integer user_id) {
-    return iUerApiService.getRoleIdbyUserId(user_id);
+    @ApiOperation(value = "获取用户角色",notes = "提供userId，返回角色Id")
+    public ServerResponse getRole(Integer userId) {
+    return iUerApiService.getRoleIdbyUserId(userId);
+    }
+
+    @RequestMapping(value = "getOrganization",method = RequestMethod.GET)
+    @ApiOperation(value = "获取用户所属组织id",notes = "提供userId，返回所属组织Id")
+    public ServerResponse getOrganization(Integer userId) {
+        return iUerApiService.getOrganizationIdbyUId(userId);
     }
 
     @RequestMapping(value = "judgeChecked",method = RequestMethod.GET)
-    @ApiOperation(value = "判断用户是否被审核",notes = "提供用户id,被审核的话返回String true,否则String false")
-    public ServerResponse judgeChecked(Integer user_id) {
-        return iUerApiService.ischecked(user_id);
+    @ApiOperation(value = "判断用户是否被审核",notes = "提供userId,被审核的话返回String true,否则String false")
+    public ServerResponse judgeChecked(Integer userId) {
+        return iUerApiService.ischecked(userId);
     }
 
 

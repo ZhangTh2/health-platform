@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface IUserFeign {
 
     @RequestMapping(value = "/api/user/getRole",method = RequestMethod.GET)
-    public ServerResponse<Integer> getRole(@RequestParam Integer userId);
+    public ServerResponse<Integer> getRole(@RequestParam("userId") Integer userId);
 
     @RequestMapping(value = "/api/user/judgeChecked",method = RequestMethod.GET)
-    public ServerResponse<String> judgeChecked(@RequestParam Integer userId);
+    public ServerResponse<String> judgeChecked(@RequestParam("userId") Integer userId);
+
+    @RequestMapping(value = "/api/user/getOrganization",method = RequestMethod.GET)
+    public ServerResponse<Integer> getOrganization(@RequestParam("userId") Integer userId);
 
 }

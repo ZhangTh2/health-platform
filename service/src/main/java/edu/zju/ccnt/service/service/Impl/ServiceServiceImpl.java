@@ -9,6 +9,7 @@ import edu.zju.ccnt.service.dao.ServiceMapper;
 import edu.zju.ccnt.service.model.Api;
 import edu.zju.ccnt.service.model.ServiceCallDetail;
 import edu.zju.ccnt.service.model.ServiceCategory;
+import edu.zju.ccnt.service.service.IOrganizationFeign;
 import edu.zju.ccnt.service.service.IServiceCategoryService;
 import edu.zju.ccnt.service.service.IServiceService;
 import edu.zju.ccnt.service.service.IUserFeign;
@@ -42,6 +43,9 @@ public class ServiceServiceImpl implements IServiceService {
     @Autowired
     private IUserFeign iUserFeign;
 
+    @Autowired
+    private IOrganizationFeign iOrganizationFeign;
+
 
     @Autowired
     private ApiMapper apiMapper;
@@ -57,7 +61,7 @@ public class ServiceServiceImpl implements IServiceService {
         if(resultCount > 0)
             return ServerResponse.createByErrorMessage("该服务已经存在");
         /**
-         * 需要user提供的获取角色和获取审核状态服务
+         * UserFeign
          */
         Integer roleId = iUserFeign.getRole(userId).getData();
         String judgeStatus = iUserFeign.judgeChecked(userId).getMsg();
@@ -116,14 +120,19 @@ public class ServiceServiceImpl implements IServiceService {
         serviceInfoVo.setId(service.getId());
         serviceInfoVo.setServiceName(service.getServiceName());
         serviceInfoVo.setCategoryId(service.getCategoryId());
+        ServiceCategory serviceCategory = iServiceCategoryService.getCategorybyId(service.getCategoryId()).getData();
+        serviceInfoVo.setCategoryName(serviceCategory.getCategoryName());
+        serviceInfoVo.setUserId(service.getUserId());
         /**
-         * mark
-         * 填充ServiceInfoVo对象，日后再说
+        UserFeign and OrganizationFeign
          */
-//        ServiceCategory serviceCategory = serviceCategoryMapper.selectByPrimaryKey(service.getCategoryId());
-//        serviceInfoVo.setCategoryName(serviceCategory.getCategoryName());
-//        serviceInfoVo.setUserId(service.getUserId());
-//        User user  = userMapper.selectByPrimaryKey(service.getUserId());
+        Integer organizationId=iUserFeign.getOrganization(service.getUserId()).getData();
+        String organizationName=iOrganizationFeign.getbyId(organizationId).getData();
+        /**
+         * dezign
+         * 将高分中心和独立开发者都加入组织,就不用判断了
+         */
+        serviceInfoVo.setEnterpriseName(organizationName);
 //        Organization organization = organizationMapper.selectByPrimaryKey(user.getOrganizationId());
 //        if(organization == null){
 //            if(user.getRoleId().equals(Const.Role.SUPER_ADMIN.getCode())){
@@ -134,17 +143,22 @@ public class ServiceServiceImpl implements IServiceService {
 //        }else {
 //            serviceInfoVo.setEnterpriseName(organization.getOrganizationName());
 //        }
-//        serviceInfoVo.setOrganizationId(user.getOrganizationId());
-//        serviceInfoVo.setFormat(service.getFormat());
-//        serviceInfoVo.setPrice(service.getPrice());
-//        serviceInfoVo.setIntroduction(service.getIntroduction());
-//        serviceInfoVo.setDetailIntroduction(service.getDetailIntroduction());
-//        serviceInfoVo.setCommentCount(service.getCommentCount());
-//        serviceInfoVo.setUserCount(service.getUserCount());
-//        serviceInfoVo.setScore(service.getScore());
+
+        serviceInfoVo.setOrganizationId(organizationId);
+        serviceInfoVo.setFormat(service.getFormat());
+        /**
+         * test
+         * long转bigDecimal 待测试
+         */
+        serviceInfoVo.setPrice(new BigDecimal(service.getPrice()));
+        serviceInfoVo.setIntroduction(service.getIntroduction());
+        serviceInfoVo.setDetailIntroduction(service.getDetailIntroduction());
+        serviceInfoVo.setCommentCount(service.getCommentCount());
+        serviceInfoVo.setUserCount(service.getUserCount());
+        serviceInfoVo.setScore(new BigDecimal(service.getScore()));
 //        //拼装返回地址
 //        serviceInfoVo.setServiceImg(PropertiesUtil.getProperty("ftp.server.http.prefix")+PropertiesUtil.getProperty("ftp.server.img")+"/"+service.getServiceImg());
-//        List<ApiInfoVo> serviceInfoVoList = assembleApiInfoList(apiList,self);
+        List<ApiInfoVo> serviceInfoVoList = assembleApiInfoList(apiList,self);
 //
 //        List<SdkVo> sdkVoList = Lists.newArrayList();
 //        List<ServiceSDK> sdkList = serviceSDKMapper.selectByServiceId(service.getId());
@@ -155,10 +169,10 @@ public class ServiceServiceImpl implements IServiceService {
 //        }
 //        serviceInfoVo.setSdkVoList(sdkVoList);
 //
-//        serviceInfoVo.setApiInfoList(serviceInfoVoList);
-//        Const con = new Const();
-//        serviceInfoVo.setSystemRequestParam(con.new SystemRequestParam());
-//        serviceInfoVo.setSystemErrorCode(Const.getCodeList());
+        serviceInfoVo.setApiInfoList(serviceInfoVoList);
+        Const con = new Const();
+        serviceInfoVo.setSystemRequestParam(con.new SystemRequestParam());
+        serviceInfoVo.setSystemErrorCode(Const.getCodeList());
         return serviceInfoVo;
     }
 
@@ -450,7 +464,7 @@ public class ServiceServiceImpl implements IServiceService {
         //判断是否有审核该服务的权限
         /**
          * mark
-         * 这里需要organization的服务  判断当前登录的用户是否有审核这个服务的权限
+         * 这里需要user的服务  判断当前登录的用户是否有审核这个服务的权限
          */
      //   List<Integer> userList = convertIntegerList(userMapper.selectByOrganizationIdAndRole(Const.Role.SERVICE_PROVIDER.getCode(),Lists.newArrayList(user.getOrganizationId())));
 //        if(!userList.contains(service.getUserId())){
